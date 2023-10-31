@@ -1,0 +1,51 @@
+<!-- Include the model viewer library -->
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+<script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>
+
+<style>
+    .parentContainer {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #modelContainer {
+        flex: 1 1 auto;
+        min-height: 0;
+        position: relative;
+        width: 100%;
+        height: 100%;
+        border: 1px solid #ddd;
+    }
+</style>
+
+<div class="parentContainer">
+    <div id="modelContainer">
+        <model-viewer 
+            src="https://raw.githubusercontent.com/nonpartisaneuphonium/3D-Model-Viewer/main/starship_model/starship_test_model.glb" 
+            environment-image="https://raw.githubusercontent.com/nonpartisaneuphonium/3D-Model-Viewer/main/starship_model/skybox_1k.hdr"
+            skybox-image="https://raw.githubusercontent.com/nonpartisaneuphonium/3D-Model-Viewer/main/starship_model/skybox_1k.hdr"
+            alt="Description of your 3D model" 
+            interaction-prompt="auto">
+        </model-viewer>
+        <button id="backButton" style="position: absolute; top: 10px; left: 10px; display: none;">X</button>
+    </div>
+</div>
+
+<script>
+    const modelViewer = document.querySelector('model-viewer');
+    const backButton = document.getElementById('backButton');
+    const modelContainer = document.getElementById('modelContainer');
+
+    modelContainer.addEventListener('click', function(event) {
+        if (event.target === modelViewer && !modelViewer.hasAttribute('camera-controls')) {
+            modelViewer.setAttribute('camera-controls', '');
+            backButton.style.display = 'block';
+        }
+    });
+
+    backButton.addEventListener('click', function(event) {
+        event.stopPropagation(); // Prevent the container click event from firing
+        modelViewer.removeAttribute('camera-controls');
+        backButton.style.display = 'none';
+    });
+</script>
